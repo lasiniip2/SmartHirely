@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { ResumeService } from '../../services/resume.service';
 
 @Component({
   selector: 'app-upload',
@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class UploadComponent {
   selectedFile: File | null = null; //Stores the file chosen by the user. Initially null.
 
-  constructor(private http: HttpClient) {} //Angular’s service for making HTTP requests. Injected using Angular’s dependency injection system.
+  constructor(private resumeService: ResumeService) {} //Injects the ResumeService using Angular Dependency Injection to handle file uploads.
 
   //Called when a user selects a file
   onFileSelected(event: Event) {
@@ -28,13 +28,9 @@ export class UploadComponent {
       return;
     }
 
-    //Creates a FormData object (used for sending files)
-    const formData = new FormData();
-    //Appends the selected file with the key "file"
-    formData.append('file', this.selectedFile);
-
-    //Sends a POST request to your backend 
-    this.http.post('http://localhost:5000/api/upload', formData).subscribe({
+    //If a file is selected, calls the uploadResume method from ResumeService
+    //Subscribes to the Observable returned by uploadResume to handle success or error
+    this.resumeService.uploadResume(this.selectedFile).subscribe({
       //Logs the result or error
       next: (res) => console.log('Upload success', res),
       error: (err) => console.error('Upload failed', err),
