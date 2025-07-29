@@ -70,7 +70,7 @@ app.post('/api/upload', upload.single('file'), async(req, res) => {
 
     // Send extracted text to OpenAI for analysis
     const aiResponse = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model: 'gpt-3.5-turbo',
       messages: [
         {
           role: 'system',
