@@ -54,7 +54,7 @@ async function extractText(filePath, mimeType) {
     return result.value;
   }
 
-  return 'Unsupported file type';
+  return 'This resume is in an unsupported format. Please upload a PDF or DOCX file.';
 }
 
 // Handle POST file upload
@@ -82,7 +82,7 @@ app.post('/api/upload', upload.single('file'), async(req, res) => {
         },
       ],
     });
-    const analysis = aiResponse.data.choices[0].message.content;
+    const analysis = aiResponse.choices[0].message.content;
 
     res.status(200).json({
       message: 'File uploaded and analyzed successfully',
