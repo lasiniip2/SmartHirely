@@ -1,17 +1,19 @@
-const express = require('express'); //core framework for creating the HTTP server and routing
-const cors = require('cors'); //allows cross-origin requests
-const multer = require('multer'); //middleware to handle file uploads
-const path = require('path'); //Node.js module to handle file and directory paths
-const fs = require('fs'); //Node.js module for reading, writing, and checking files.
-const pdfParse = require('pdf-parse'); //to read PDF files
-const mammoth = require('mammoth'); //to read DOCX files
+const express = require('express'); 
+const cors = require('cors'); 
+const multer = require('multer'); 
+const path = require('path'); 
+const fs = require('fs'); 
+const pdfParse = require('pdf-parse'); 
+const mammoth = require('mammoth'); 
 const OpenAI = require('openai');
 require('dotenv').config();
+const axios = require('axios');
+const cheerio = require('cheerio');
 
-const app = express();//Creates your backend app instance
+const app = express();
 const PORT = 5000;
 
-app.use(cors());//Allows cross-origin requests from your Angular frontend
+app.use(cors());
 
 // openai configuration
 const openai = new OpenAI({
@@ -20,11 +22,9 @@ const openai = new OpenAI({
 
 // Set up storage engine for multer
 const storage = multer.diskStorage({
-  // upload files into the 'uploads' folder
   destination: (req, file, cb) => {
     cb(null, 'uploads/'); 
   },
-  //Gives each uploaded file a unique name
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     const ext = path.extname(file.originalname);
@@ -57,36 +57,81 @@ async function extractText(filePath, mimeType) {
   return 'This resume is in an unsupported format. Please upload a PDF or DOCX file.';
 }
 
+// Scrape top jobs from topjobs.lk based on a keyword
+async function scrapeTopJobs(keyword) {
+  const url = `https://topjobs.lk/applicant/vacancybyfunctionalarea.jsp?FA=Information+Technology`;
+
+  try {
+    const { data } = await axios.get(url);
+    const $ = cheerio.load(data);
+
+    const results = [];
+
+    $('a[href^="/employer/"]').each((i, el) => {
+      const title = $(el).text().trim();
+      const link = 'https://topjobs.lk' + $(el).attr('href');
+      if (title.toLowerCase().includes(keyword.toLowerCase())) {
+        results.push({ title, link });
+      }
+    });
+
+    return results.slice(0, 5); 
+  } catch (err) {
+    console.error('Scraping failed:', err.message);
+    return [];
+  }
+}
+
 // Handle POST file upload
 app.post('/api/upload', upload.single('file'), async(req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No file uploaded' });
   }
 
-  // analyze the file here or send it to AI logic
   try {
     const filePath = path.join(__dirname, 'uploads', req.file.filename);
     const text = await extractText(filePath, req.file.mimetype);
 
-    // Send extracted text to OpenAI for analysis
     const aiResponse = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [
         {
           role: 'system',
-          content: 'You are an AI assistant that extracts key skills and matches suitable job roles for Sri Lanka IT industry.',
+          content: 'You are an AI assistant that provides job recommendations based on Sri Lankan IT industry standards.',
         },
         {
           role: 'user',
-          content: `Analyze this resume and suggest 3 ideal job roles: \n\n${text}`,
+          content: `You are an expert career advisor in the Sri Lankan IT industry. 
+          Analyze the following resume and recommend the **top 4 most suitable job roles**.
+          If the resume seems to belong to a student or someone seeking training, include internships or entry-level roles.
+          Respond with only the 4 roles in a bullet-point list (no explanations).
+          Resume content:\n\n${text}`,
         },
       ],
     });
+
     const analysis = aiResponse.choices[0].message.content;
+
+    // Extract roles (bullet-point list)
+    const roles = analysis.match(/- (.+)/g)?.map(r => r.replace('- ', '').trim()) || [];
+
+    //scrape up to 3 jobs per role, stopping once we collect 10 in total
+    let allJobs = [];
+    for (const role of roles) {
+      if (allJobs.length >= 10) break;
+
+      const scraped = await scrapeTopJobs(role);
+
+      for (const job of scraped) {
+        if (allJobs.length >= 10) break;
+        allJobs.push({ role, ...job });
+      }
+    }
 
     res.status(200).json({
       message: 'File uploaded and analyzed successfully',
-      analysis,
+      jobRoles: roles,   // 4 roles
+      jobVacancies: allJobs, // up to 10 real vacancies
     });
 
   } catch (err) {
