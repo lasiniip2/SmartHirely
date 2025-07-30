@@ -1,0 +1,193 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-red-900 to-black relative overflow-hidden">
+  <!-- Background Pattern Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-br from-red-900/20 to-black/40"></div>
+
+  <!-- Main Content -->
+  <div class="relative z-10 min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <app-navigation> </app-navigation>
+
+    <!-- Hero Section -->
+    <div id="top-section" class="flex-1 flex items-center justify-center px-6">
+      <div class="max-w-4xl mx-auto text-center">
+        <!-- Main Hero Content -->
+        <div class="mb-12">
+          <div class="mb-8">
+            <h1 class="text-6xl md:text-7xl font-bold bg-gradient-to-r from-white via-red-100 to-red-200 bg-clip-text text-transparent mb-6 leading-tight">
+              Your Career
+              <br>
+              <span class="bg-gradient-to-r from-red-400 via-red-300 to-red-500 bg-clip-text text-transparent">
+                AI-Powered
+              </span>
+            </h1>
+            <p class="text-xl md:text-2xl text-red-100/80 leading-relaxed max-w-3xl mx-auto mb-8">
+              Discover your perfect career path with our advanced AI technology. Upload your resume and get personalized job recommendations tailored to Sri Lanka's dynamic job market.
+            </p>
+          </div>
+
+          <!-- CTA Buttons - Added (click)="navigateToUpload()" -->
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+            <button (click)="navigateToUpload()" class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-semibold text-lg flex items-center space-x-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+              <span class="text-xl">Start Career Analysis</span>
+            </button>
+          </div>
+
+          <!-- Stats -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-xl">
+              <div class="text-3xl font-bold text-white mb-2">100+</div>
+              <div class="text-red-100/70">Resumes Analyzed</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-xl">
+              <div class="text-3xl font-bold text-white mb-2">98%</div>
+              <div class="text-red-100/70">Accuracy Rate</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-xl">
+              <div class="text-3xl font-bold text-white mb-2">100+</div>
+              <div class="text-red-100/70">Companies Listed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="px-6 pb-16">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold bg-gradient-to-r from-white via-red-100 to-red-200 bg-clip-text text-transparent mb-4">
+            Why Choose SmartHirely?
+          </h2>
+          <p class="text-xl text-red-100/70 max-w-2xl mx-auto">
+            Powered by cutting-edge AI technology to give you the most accurate career insights
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Feature 1 -->
+          <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:border-red-300/40">
+            <div class="w-16 h-16 bg-gradient-to-r from-red-600 to-red-700 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-4">AI-Powered Analysis</h3>
+            <p class="text-red-100/70 leading-relaxed">
+              Our algorithms are designed to analyze your resume and match you with the most suitable career opportunities based on your skills and experience.
+            </p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:border-red-300/40">
+            <div class="w-16 h-16 bg-gradient-to-r from-red-600 to-red-700 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-4">Sri Lanka Focused</h3>
+            <p class="text-red-100/70 leading-relaxed">
+              Specifically designed for Sri Lanka's job market with insights into local companies, salary ranges, and industry trends to help you make informed decisions.
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:border-red-300/40">
+            <div class="w-16 h-16 bg-gradient-to-r from-red-600 to-red-700 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-4">Instant Results</h3>
+            <p class="text-red-100/70 leading-relaxed">
+              Get comprehensive career recommendations in seconds, including job roles, salary expectations, required skills, and top companies to apply to.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <div class="px-6 pb-16">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold bg-gradient-to-r from-white via-red-100 to-red-200 bg-clip-text text-transparent mb-4">
+            How It Works
+          </h2>
+          <p class="text-xl text-red-100/70">
+            Three simple steps to discover your ideal career path
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Step 1 -->
+          <div class="text-center">
+            <div class="w-20 h-20 bg-gradient-to-r from-red-600 to-red-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+              <span class="text-2xl font-bold text-white">1</span>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-4">Upload Resume</h3>
+            <p class="text-red-100/70">
+              Simply upload your resume in PDF or DOCX format and let our AI analyze your skills and experience.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="text-center">
+            <div class="w-20 h-20 bg-gradient-to-r from-red-600 to-red-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+              <span class="text-2xl font-bold text-white">2</span>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-4">AI Analysis</h3>
+            <p class="text-red-100/70">
+              Our advanced AI processes your information and matches it with thousands of job opportunities in Sri Lanka.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="text-center">
+            <div class="w-20 h-20 bg-gradient-to-r from-red-600 to-red-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+              <span class="text-2xl font-bold text-white">3</span>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-4">Get Results</h3>
+            <p class="text-red-100/70">
+              Receive personalized career recommendations with salary insights, skill requirements, and company suggestions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final CTA Section - Bottom button modified to scroll to top -->
+    <div class="px-6 pb-16">
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-12 text-center">
+          <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-red-100 to-red-200 bg-clip-text text-transparent mb-6">
+            Ready to Transform Your Career?
+          </h2>
+          <p class="text-xl text-red-100/70 mb-8 max-w-2xl mx-auto">
+            Join hundreds of professionals who have discovered their perfect career path with SmartHirely's AI-powered recommendations.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button (click)="scrollToTop()" class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-semibold text-lg flex items-center space-x-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+              </svg>
+              <span>Upload Your Resume Now</span>
+            </button>
+            <div class="flex items-center text-red-100/60 text-sm">
+              <svg class="w-4 h-4 mr-2 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
+              <span>100% Free • No Registration Required</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <app-footer></app-footer>
+  </div>
+</div>
