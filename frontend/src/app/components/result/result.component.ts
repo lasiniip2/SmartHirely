@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FooterComponent } from "../footer/footer.component";
+import { NavigationComponent } from "../navigation/navigation.component";
 
 interface JobRole {
   jobTitle: string;
@@ -16,7 +18,7 @@ interface JobRole {
 @Component({
   selector: 'app-result',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FooterComponent, NavigationComponent],
   templateUrl: './result.component.html',
   styleUrl: './result.component.css'
 })

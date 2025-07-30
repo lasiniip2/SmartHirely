@@ -1,85 +1,113 @@
-<div class="min-h-screen bg-gradient-to-br from-gray-900 via-red-900 to-black flex items-center justify-center p-4 relative">
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-red-900 to-black relative overflow-hidden">
   <!-- Background Pattern Overlay -->
   <div class="absolute inset-0 bg-gradient-to-br from-red-900/20 to-black/40"></div>
-  
-  <!-- Main Content Container -->
-  <div class="relative z-10 w-full max-w-lg">
-    <!-- Upload Form Card -->
-    <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
-      <form (submit)="onSubmit(); $event.preventDefault()" class="space-y-6">
-        <!-- File Upload Section -->
-        <div class="space-y-4">
-          <label for="resume" class="block text-white font-medium text-lg text-center">
-            Upload Your Resume
-          </label>
-          <p class="text-red-100/60 text-sm text-center">
-            Supported formats: PDF, DOCX (Max 5MB)
+
+  <!-- Main Content -->
+  <div class="relative z-10 min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <app-navigation></app-navigation>
+
+    <!-- Upload Section -->
+    <div class="flex-1 flex items-center justify-center px-4 py-8">
+      <div class="w-full max-w-lg">
+        <!-- Intro Section -->
+        <div class="mb-8 text-center">
+          <h2 class="text-3xl font-bold text-white mb-2">Welcome to SmartHirely</h2>
+          <p class="text-red-100/80 text-lg mb-2">
+            Upload your CV or resume below and let our system analyze your skills to find the best job roles for you in Sri Lanka.
           </p>
-          
-          <!-- Custom File Input -->
-          <div class="relative">
-            <input
-              type="file"
-              id="resume"
-              accept=".pdf,.docx"
-              (change)="onFileSelected($event)"
-              required
-              [disabled]="isLoading"
-              class="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
-            />
-            <div class="border-2 border-dashed border-red-300/40 rounded-xl p-8 text-center transition-all duration-300 hover:border-red-300/60 hover:bg-white/5" 
-                 [class.border-red-400]="selectedFile"
-                 [class.bg-white]="selectedFile">
-              <div class="space-y-4">
-                <div class="mx-auto w-16 h-16 bg-red-600/20 rounded-full flex items-center justify-center">
-                  <svg class="w-8 h-8 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                  </svg>
-                </div>
-                <div>
-                  <p class="text-white font-medium" *ngIf="!selectedFile">
-                    Click to upload or drag and drop
-                  </p>
-                  <p class="text-green-300 font-medium" *ngIf="selectedFile">
-                    ✓ {{ selectedFile.name }}
-                  </p>
-                  <p class="text-red-100/60 text-sm mt-2">
-                    PDF or DOCX files only
-                  </p>
+        </div>
+        <!-- Upload Form Card -->
+        <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
+          <form (submit)="onSubmit(); $event.preventDefault()" class="space-y-6">
+            <!-- File Upload Section -->
+            <div class="space-y-4">
+              <label for="resume" class="block text-white font-medium text-lg text-center">
+                Upload Your Resume
+              </label>
+              <p class="text-red-100/60 text-sm text-center">
+                Supported formats: PDF, DOCX (Max 5MB)
+              </p>
+              
+              <!-- Custom File Input -->
+              <div class="relative">
+                <input
+                  type="file"
+                  id="resume"
+                  accept=".pdf,.docx"
+                  (change)="onFileSelected($event)"
+                  required
+                  [disabled]="isLoading"
+                  class="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
+                />
+                <div class="border-2 border-dashed border-red-300/40 rounded-xl p-8 text-center transition-all duration-300 hover:border-red-300/60 hover:bg-white/5" 
+                     [class.border-red-400]="selectedFile"
+                     [class.bg-white]="selectedFile">
+                  <div class="space-y-4">
+                    <div class="mx-auto w-16 h-16 bg-red-600/20 rounded-full flex items-center justify-center">
+                      <svg class="w-8 h-8 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                      </svg>
+                    </div>
+                    <div>
+                      <p class="text-white font-medium" *ngIf="!selectedFile">
+                        Click to upload or drag and drop your CV here
+                      </p>
+                      <p class="text-red-400 font-medium" *ngIf="selectedFile">
+                        ✓ {{ selectedFile.name }}
+                      </p>
+                      <p class="text-red-300/60 text-sm mt-2">
+                        PDF or DOCX files only
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Submit Button -->
-        <button
-          type="submit"
-          [disabled]="isLoading || !selectedFile"
-          class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 disabled:from-red-800/50 disabled:to-red-900/50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-105 disabled:transform-none flex items-center justify-center space-x-3"
-        >
-          <span *ngIf="!isLoading" class="flex items-center space-x-3">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-            </svg>
-            <span>Analyze Resume</span>
-          </span>
-          <span *ngIf="isLoading" class="flex items-center space-x-3">
-            <svg class="animate-spin w-5 h-5 text-white" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <span>Analyzing Your Resume...</span>
-          </span>
-        </button>
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              [disabled]="isLoading || !selectedFile"
+              class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 disabled:from-red-800/50 disabled:to-red-900/50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-105 disabled:transform-none flex items-center justify-center space-x-3"
+            >
+              <span *ngIf="!isLoading" class="flex items-center space-x-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+                <span>Analyze Resume</span>
+              </span>
+              <span *ngIf="isLoading" class="flex items-center space-x-3">
+                <svg class="animate-spin w-5 h-5 text-white" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Analyzing Your Resume...</span>
+              </span>
+            </button>
 
-        <!-- Progress Bar (when loading) -->
-        <div *ngIf="isLoading" class="w-full bg-red-900/30 rounded-full h-2 overflow-hidden">
-          <div class="bg-gradient-to-r from-red-400 to-red-500 h-full rounded-full animate-pulse"></div>
+            <!-- Progress Bar (when loading) -->
+            <div *ngIf="isLoading" class="w-full bg-red-900/30 rounded-full h-2 overflow-hidden">
+              <div class="bg-gradient-to-r from-red-400 to-red-500 h-full rounded-full animate-pulse"></div>
+            </div>
+          </form>
         </div>
-      </form>
+        <!-- Extra Info Section -->
+        <div class="mt-8 text-center">
+          <p class="text-red-100/70 text-base mb-2">
+            Don't have a CV? Create one and come back to get your personalized job matches!
+          </p>
+          <p class="text-red-100/60 text-sm">
+            Your data is private and secure. We never store your resume.
+          </p>
+        </div>
+      </div>
     </div>
+
+    <!-- Footer -->
+    <app-footer></app-footer>
   </div>
+</div>
 
 
 

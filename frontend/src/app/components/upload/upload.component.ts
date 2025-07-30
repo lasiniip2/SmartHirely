@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Add this import
 import { ResumeService } from '../../services/resume.service';
+import { NavigationComponent } from "../navigation/navigation.component";
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
   selector: 'app-upload',
   standalone: true,
-  imports: [CommonModule], // Add CommonModule to imports array
+  imports: [CommonModule, NavigationComponent, FooterComponent], // Add CommonModule to imports array
   templateUrl: './upload.component.html',
 })
 export class UploadComponent {
