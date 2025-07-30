@@ -71,16 +71,16 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
         {
           role: 'system',
           content: `You are an expert career advisor in Sri Lanka. Based on a given resume, return 10 suitable job roles that are relevant to the Sri Lankan job market. Each job role should include:
-
-1. Job Title
-2. Description (2–3 sentences)
-3. Typical Career Path
-4. Key Skills Required
-5. Common Tools/Platforms Used
-6. Estimated Monthly Salary in LKR
-7. Popular Job Portals (just names, like "TopJobs", "ExpressJobs", "LinkedIn", etc.)
-
-Output the result as a JSON array of job role objects.`,
+            1. Job Title
+            2. Description (2–3 sentences)
+            3. Typical Career Path
+            4. Key Skills Required
+            5. Common Tools/Platforms Used
+            6. Estimated Monthly Salary in LKR
+            7. Relevant Companies (List 5-8 actual Sri Lankan companies that typically hire for this role)
+            8. Popular Job Portals (just names, like "TopJobs", "ExpressJobs", "LinkedIn", etc.)
+            
+            Output the result as a JSON array of job role objects.`,
         },
         {
           role: 'user',
@@ -92,18 +92,18 @@ Output the result as a JSON array of job role objects.`,
 
     const jobRolesRaw = aiResponse.choices[0].message.content;
 
-let jobRoles;
-try {
-  jobRoles = JSON.parse(jobRolesRaw); // ← Parse string into JSON
-} catch (error) {
-  console.error('Failed to parse AI response:', error.message);
-  return res.status(500).json({ message: 'AI returned an invalid format.' });
-}
+    let jobRoles;
+    try {
+      jobRoles = JSON.parse(jobRolesRaw); 
+    } catch (error) {
+      console.error('Failed to parse AI response:', error.message);
+      return res.status(500).json({ message: 'AI returned an invalid format.' });
+    }
 
-res.status(200).json({
-  message: 'Resume analyzed successfully',
-  jobRoles, // ← Now it's a real object/array
-});
+    res.status(200).json({
+      message: 'Resume analyzed successfully',
+      jobRoles, 
+    });
 
 
   } catch (err) {
