@@ -59,23 +59,46 @@ async function extractText(filePath, mimeType) {
 
 // Scrape top jobs from topjobs.lk based on a keyword
 async function scrapeTopJobs(keyword) {
-  const url = `https://topjobs.lk/applicant/vacancybyfunctionalarea.jsp?FA=Information+Technology`;
+  const url = `https://topjobs.lk/search?keywords=${encodeURIComponent(keyword)}&location=`;
 
   try {
-    const { data } = await axios.get(url);
+    console.log(`Scraping for keyword: "${keyword}"`);
+    const { data } = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      }
+    });
     const $ = cheerio.load(data);
 
     const results = [];
 
-    $('a[href^="/employer/"]').each((i, el) => {
-      const title = $(el).text().trim();
-      const link = 'https://topjobs.lk' + $(el).attr('href');
-      if (title.toLowerCase().includes(keyword.toLowerCase())) {
-        results.push({ title, link });
-      }
-    });
+    // Try different selectors
+    const jobSelectors = [
+      '.job-title a',
+      '.vacancy-title',
+      'a[href*="vacancy"]',
+      '.job-link',
+      'h3 a'
+    ];
 
-    return results.slice(0, 5); 
+    for (const selector of jobSelectors) {
+      $(selector).each((i, el) => {
+        const title = $(el).text().trim();
+        const link = $(el).attr('href');
+        
+        if (title && link) {
+          const fullLink = link.startsWith('http') ? link : 'https://topjobs.lk' + link;
+          results.push({ title, link: fullLink });
+        }
+      });
+
+      if (results.length > 0) {
+        console.log(`Found ${results.length} jobs using selector: ${selector}`);
+        break;
+      }
+    }
+
+    return results.slice(0, 5);
   } catch (err) {
     console.error('Scraping failed:', err.message);
     return [];
@@ -102,9 +125,9 @@ app.post('/api/upload', upload.single('file'), async(req, res) => {
         {
           role: 'user',
           content: `You are an expert career advisor in the Sri Lankan IT industry. 
-          Analyze the following resume and recommend the **top 4 most suitable job roles**.
+          Analyze the following resume and recommend the **top 5 most suitable job roles**.
           If the resume seems to belong to a student or someone seeking training, include internships or entry-level roles.
-          Respond with only the 4 roles in a bullet-point list (no explanations).
+          Respond with only the 5 roles in a bullet-point list (no explanations).
           Resume content:\n\n${text}`,
         },
       ],
@@ -115,23 +138,30 @@ app.post('/api/upload', upload.single('file'), async(req, res) => {
     // Extract roles (bullet-point list)
     const roles = analysis.match(/- (.+)/g)?.map(r => r.replace('- ', '').trim()) || [];
 
-    //scrape up to 3 jobs per role, stopping once we collect 10 in total
+    //scrape jobs from all roles and distribute evenly (3 jobs per role = 15 total)
     let allJobs = [];
-    for (const role of roles) {
-      if (allJobs.length >= 10) break;
+    const jobsPerRole = Math.floor(15 / roles.length); // 3 jobs per role if 5 roles
+    const extraJobs = 15 % roles.length; // handle remainder
 
+    for (let i = 0; i < roles.length; i++) {
+      const role = roles[i];
       const scraped = await scrapeTopJobs(role);
-
-      for (const job of scraped) {
-        if (allJobs.length >= 10) break;
+      
+      // Take 3 jobs per role, plus 1 extra for first few roles if needed
+      const jobsToTake = jobsPerRole + (i < extraJobs ? 1 : 0);
+      const selectedJobs = scraped.slice(0, jobsToTake);
+      
+      for (const job of selectedJobs) {
         allJobs.push({ role, ...job });
       }
+      
+      console.log(`Added ${selectedJobs.length} jobs for role: ${role}`);
     }
 
     res.status(200).json({
       message: 'File uploaded and analyzed successfully',
-      jobRoles: roles,   // 4 roles
-      jobVacancies: allJobs, // up to 10 real vacancies
+      jobRoles: roles,   // 5 roles
+      jobVacancies: allJobs, // exactly 15 vacancies (3 per role)
     });
 
   } catch (err) {
