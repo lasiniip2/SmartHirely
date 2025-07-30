@@ -80,7 +80,17 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
             7. Relevant Companies (List 5-8 actual Sri Lankan companies that typically hire for this role)
             8. Popular Job Portals (just names, like "TopJobs", "ExpressJobs", "LinkedIn", etc.)
             
-            Output the result as a JSON array of job role objects.`,
+            Output the result as a JSON array of job role objects with the following structure:
+            {
+              "jobTitle": "string",
+              "description": "string",
+              "careerPath": "string",
+              "keySkills": ["skill1", "skill2"],
+              "tools": ["tool1", "tool2"],
+              "salaryRange": "string",
+              "relevantCompanies": ["company1", "company2", "company3"]
+              "jobPortals": ["portal1", "portal2"],
+            }`,
         },
         {
           role: 'user',
