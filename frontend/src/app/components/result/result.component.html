@@ -34,10 +34,10 @@
     </div>
 
     <!-- Job Roles Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="columns-1 lg:columns-2 gap-6">
       <div 
         *ngFor="let role of jobRoles; let i = index" 
-        class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
+        class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden break-inside-avoid mb-6 w-full">
         
         <!-- Card Header -->
         <div class="p-6 border-b border-gray-100">
@@ -48,7 +48,7 @@
             </div>
             <button 
               (click)="toggleCard(i)"
-              class="ml-4 p-2 text-gray-400 hover:text-gray-600 transition-colors">
+              class="ml-4 p-2 text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0">
               <svg 
                 class="w-5 h-5 transform transition-transform duration-200"
                 [class.rotate-180]="isExpanded(i)"
@@ -68,10 +68,8 @@
 
         <!-- Expandable Content -->
         <div 
-          class="transition-all duration-300 overflow-hidden"
-          [class.max-h-0]="!isExpanded(i)"
-          [class.max-h-none]="isExpanded(i)"
-          [style.max-height]="isExpanded(i) ? 'none' : '0'">
+          class="transition-all duration-500 ease-in-out overflow-hidden"
+          [style.max-height]="isExpanded(i) ? '2000px' : '0px'">
           
           <div class="p-6 space-y-6">
             <!-- Career Path -->
@@ -84,7 +82,7 @@
             </div>
 
             <!-- Skills & Tools Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 gap-4">
               <!-- Key Skills -->
               <div>
                 <h4 class="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
@@ -122,7 +120,7 @@
                 <span class="w-2 h-2 bg-green-500 rounded-full"></span>
                 Relevant Companies in Sri Lanka
               </h4>
-              <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+              <div class="grid grid-cols-2 gap-2">
                 <span 
                   *ngFor="let company of role.relevantCompanies" 
                   class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-md text-center">
