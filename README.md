@@ -28,9 +28,9 @@ SmartHirely is an AI-integrated web application that intelligently analyzes resu
 | Tools Used    | Postman, GitHub, VS Code                 |
 
 ## Screenshot
-![Landing](./gitassets/screenshot.png)
-![Upload](./gitassets/screenshot.png)
-![Result](./gitassets/screenshot.png)
+![Landing](./gitassets/Landing.png)
+![Upload](./gitassets/Upload.png)
+![Result](./gitassets/Result.png)
 
 ## License
 This project is for educational/demo purposes only. Commercial use is not allowed.
